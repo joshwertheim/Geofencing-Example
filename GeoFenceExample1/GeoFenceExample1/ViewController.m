@@ -80,11 +80,24 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
+{
     NSLog(@"%s", __PRETTY_FUNCTION__);
 }
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
+{
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.fireDate = [NSDate date];
+    NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
+    notification.timeZone = timezone;
+    notification.alertBody = @"You have left your most recent region. Set a new one?";
+    notification.alertAction = @"Open";
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+    
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -103,7 +116,7 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
     
     NSString *text = [NSString stringWithFormat:@"%.1f | %.1f", center.latitude, center.longitude];
     [cell.textLabel setText:text];
-    [cell.detailTextLabel setText:[geofence identifier]];
+//    [cell.detailTextLabel setText:[geofence identifier]];
     
     return cell;
 }

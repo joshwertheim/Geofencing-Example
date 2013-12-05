@@ -28,7 +28,7 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
     [self setupTableView];
     
     // LocationManager Setup
-    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager = [CLLocationManager new];
     [self.locationManager setDelegate:self];
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
@@ -37,8 +37,8 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
 
 - (void)setupTableView
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCurrentLocation:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editTableView:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem new] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCurrentLocation:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem new] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editTableView:)];
 }
 
 - (void)updateTableView {
@@ -69,7 +69,7 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
     if (locations && [locations count] && !_didStartMonitoringRegion) {
         _didStartMonitoringRegion = YES;
         CLLocation *location = [locations objectAtIndex:0];
-        CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:[location coordinate] radius:250.0 identifier:[[NSUUID UUID] UUIDString]];
+        CLCircularRegion *region = [[CLCircularRegion new] initWithCenter:[location coordinate] radius:250.0 identifier:[[NSUUID UUID] UUIDString]];
         
         [self.locationManager startMonitoringForRegion:region];
         [self.locationManager stopUpdatingLocation];
@@ -88,7 +88,7 @@ static NSString *GeofenceCellIdentifier = @"GeofenceCell";
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    UILocalNotification *notification = [UILocalNotification new];
     notification.fireDate = [NSDate date];
     NSTimeZone* timezone = [NSTimeZone defaultTimeZone];
     notification.timeZone = timezone;
